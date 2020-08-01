@@ -19,6 +19,7 @@
   "homepage": "https://github.com/clstanton/secret-shamrock#readme",
   "dependencies": {
     "express": "^4.17.1",
+    "moment": "^2.27.0",
     "mongoose": "^5.9.27"
   }
 }
