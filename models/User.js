@@ -2,7 +2,7 @@
 const { Schema, model } = require('mongoose');
 
 const UserSchema = new Schema({
-    username: {
+    userName: {
       type: String
     },
     email: {
@@ -26,7 +26,7 @@ const UserSchema = new Schema({
 
 // get total count of thoughts and reactions on retrieval
 UserSchema.virtual('thoughtCount').get(function() {
-  return this.thoughts.length;
+  return this.thoughts.reduce((total, thought) => total + thought.reactions.length + 1, 0);
 });
 
 // create the User model using the UserSchema
