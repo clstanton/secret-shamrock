@@ -9,7 +9,8 @@ const ReactionSchema = new Schema(
       default: () => new Types.ObjectId()
     },
     reactionBody: {
-      type: String
+      type: String,
+      required: true
     },
     userName: {
       type: String
@@ -29,7 +30,8 @@ const ReactionSchema = new Schema(
 
 const ThoughtSchema = new Schema({
   thoughtText: {
-    type: String
+    type: String,
+    required: true
   },
   createdAt: {
     type: Date,
@@ -37,7 +39,8 @@ const ThoughtSchema = new Schema({
     get: (createdAtVal) => moment(createdAtVal).format('MMM DD, YYYY [at] hh:mm a')
   },
   userName: {
-    type: String
+    type: String,
+    required: true
   },    
   reactions: [ReactionSchema]
 },
@@ -50,6 +53,7 @@ const ThoughtSchema = new Schema({
 }
 );
 
+// add a virtual to get the total reaction count
 ThoughtSchema.virtual('reactionCount').get(function() {
   return this.reactions.length;
 });
