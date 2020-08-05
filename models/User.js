@@ -2,23 +2,27 @@
 const { Schema, model } = require('mongoose');
 
 const UserSchema = new Schema({
-    userName: {
+    username: {
       type: String,
-      unique: true,
       required: true,
+      unique: true,
       trim: true
     },
+    // Must match a valid email address (look into Mongoose's matching validation)
     email: {
       type: String,
-      unique: true,
-      required: true
+      required: true,
+      unique: true
+      // matching validation
     },
+    // Array of _id values referencing the Thought model
     thoughts: [
       {
         type: Schema.Types.ObjectId,
         ref: 'Thought'
       }
     ],
+    // Array of _id values referencing the User model (self-reference)
     friends: [
       {
         type: Schema.Types.ObjectId,
@@ -34,7 +38,7 @@ const UserSchema = new Schema({
     }
   );
 
-// get total count of friends on retrieval
+// self-reference, get total count of friends on retrieval, retrieves the length of the user's friends array field on query.
 UserSchema.virtual('friendCount').get(function() {
   return this.friends.length;
 });

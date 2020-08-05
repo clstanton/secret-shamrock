@@ -11,9 +11,11 @@ const ReactionSchema = new Schema(
     reactionBody: {
       type: String,
       required: true
+      // 280 character maximum
     },
-    userName: {
-      type: String
+    username: {
+      type: String,
+      required: true
     },
     createdAt: {
       type: Date,
@@ -32,16 +34,19 @@ const ThoughtSchema = new Schema({
   thoughtText: {
     type: String,
     required: true
+    // Must be between 1 and 280 characters
   },
   createdAt: {
     type: Date,
     default: Date.now,
     get: (createdAtVal) => moment(createdAtVal).format('MMM DD, YYYY [at] hh:mm a')
   },
-  userName: {
+  // The user who created this thought
+  username: {
     type: String,
     required: true
-  },    
+  },   
+  // like replies, array of nested documents created with the reactionSchema 
   reactions: [ReactionSchema]
 },
 {
@@ -53,7 +58,7 @@ const ThoughtSchema = new Schema({
 }
 );
 
-// add a virtual to get the total reaction count
+// add a virtual to get the total reaction count, retrieves the length of the thought's reactions array field on query.
 ThoughtSchema.virtual('reactionCount').get(function() {
   return this.reactions.length;
 });

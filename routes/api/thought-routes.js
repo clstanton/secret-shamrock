@@ -12,19 +12,19 @@ const {
 // Set up GET all at /api/thoughts
 router.route('/').get(getAllThoughts);
 
-// /api/thoughts/<userId>
+// /api/thoughts/:userId
 router.route('/:userId').post(addThought);
 
-// /api/thoughts/<userId>/<thoughtId>
+// /api/thoughts/:userId/:thoughtId
 router
   .route('/:userId/:thoughtId')
   .get(getThoughtById)
   .put(updateThought)
   .delete(removeThought)
 
-// /api/thoughts/:thoughtId/:reactionId
+// /api/thoughts/:thoughtId/reactions
 router
-  .route('/:thoughtId/:reactionId')
+  .route('/:thoughtId/reactions')
   .post(addReaction)
   .delete(removeReaction);
 
