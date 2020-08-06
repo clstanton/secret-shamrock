@@ -16,16 +16,20 @@ router.route('/').get(getAllThoughts);
 router.route('/:userId').post(addThought);
 
 // /api/thoughts/:userId/:thoughtId
-router
-  .route('/:userId/:thoughtId')
-  .get(getThoughtById)
-  .put(updateThought)
-  .delete(removeThought)
+//router
+  //.route('/:userId/:thoughtId')
+  //.get(getThoughtById)
+  //.put(updateThought)
+  //.delete(removeThought)
 
-// /api/thoughts/:thoughtId/reactions
+// /api/thoughts/:thoughtId/reactions or should it be /api/thoughts/:userId/:thoughtId?
 router
-  .route('/:thoughtId/reactions')
+  .route('/:userId/:thoughtId') // should this be /:thoughtId/reactions?
+  .get(getThoughtById)
   .post(addReaction)
-  .delete(removeReaction);
+  .put(updateThought)
+  .delete(removeThought);
+
+router.route('/:userId/:thoughtId/:reactionId').delete(removeReaction);
 
 module.exports = router;
