@@ -2,17 +2,7 @@
 const { Schema, model } = require('mongoose');
 
 const FriendSchema = new Schema(
-  {
-    // set custom id to avoid confusion with parent comment _id
-    friendId: {
-      type: Schema.Types.ObjectId,
-      default: () => new Types.ObjectId()
-    },
-    username: {
-      type: String,
-      required: true
-    },
-  },
+  { username: { type: String, required: true } }
 );
 
 const UserSchema = new Schema({
