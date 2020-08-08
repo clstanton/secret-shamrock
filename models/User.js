@@ -1,5 +1,19 @@
-// import the dependencies
+// import dependencies
 const { Schema, model } = require('mongoose');
+
+const FriendSchema = new Schema(
+  {
+    // set custom id to avoid confusion with parent comment _id
+    friendId: {
+      type: Schema.Types.ObjectId,
+      default: () => new Types.ObjectId()
+    },
+    username: {
+      type: String,
+      required: true
+    },
+  },
+);
 
 const UserSchema = new Schema({
     username: {
@@ -11,9 +25,9 @@ const UserSchema = new Schema({
     // Must match a valid email address (look into Mongoose's matching validation)
     email: {
       type: String,
+      match: [/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/, 'Please provide a valid email address.'],
       required: true,
       unique: true
-      // matching validation
     },
     // Array of _id values referencing the Thought model
     thoughts: [
@@ -23,12 +37,14 @@ const UserSchema = new Schema({
       }
     ],
     // Array of _id values referencing the User model (self-reference)
-    friends: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'User'
-      }
-    ]
+    //friends: [
+      //{
+        //type: Schema.Types.ObjectId,
+        //ref: 'User'
+        
+      //}
+    //] 
+    friends: [FriendSchema]
   },
     {
       toJSON: {

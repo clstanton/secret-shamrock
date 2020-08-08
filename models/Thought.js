@@ -1,3 +1,4 @@
+// import dependencies
 const moment = require('moment');
 const { Schema, model, Types } = require('mongoose');
 
@@ -10,8 +11,8 @@ const ReactionSchema = new Schema(
     },
     reactionBody: {
       type: String,
+      maxlength: [280, 'Exceeds the maximum allowed length (280)!'],
       required: true
-      // 280 character maximum
     },
     username: {
       type: String,
@@ -33,8 +34,8 @@ const ReactionSchema = new Schema(
 const ThoughtSchema = new Schema({
   thoughtText: {
     type: String,
+    maxlength: [280, 'Exceeds the maximum allowed length (280)!'],
     required: true
-    // Must be between 1 and 280 characters
   },
   createdAt: {
     type: Date,
