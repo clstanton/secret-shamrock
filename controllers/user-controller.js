@@ -6,12 +6,12 @@ const userController = {
     User.find({})
       .populate({
         path: 'thoughts',
-        model: 'Thought',
+        // model: 'Thought',
         select: '-__v'
       })
       .populate({
         path: 'friends',
-        model: 'User',
+        // model: 'User',
         select: '-__v'
       })
       .select('-__v')
@@ -28,12 +28,12 @@ const userController = {
     User.findOne({ _id: params.id })
       .populate({
         path: 'thoughts',
-        model: 'Thought',
+        // model: 'Thought',
         select: '-__v'
       })
       .populate({
         path: 'friends',
-        model: 'User',
+        // model: 'User',
         select: '-__v'
       })
       .select('-__v')
@@ -53,15 +53,15 @@ const userController = {
 
   // update user by id
   updateUser({ params, body }, res) {
-    User.findOneAndUpdate({ _id: params.id }, body, { new: true })
+    User.findOneAndUpdate({ _id: params.id }, body, { new: true, runValidators: true }) // added 8/9
         .then(dbUserData => {
             if (!dbUserData) {
                 res.status(404).json({ message: 'No user found with this id!' });
                 return;
-        }
-        res.json(dbUserData);
-      })
-      .catch(err => res.status(400).json(err));
+            }
+            res.json(dbUserData);
+        })
+        .catch(err => res.json(err)); //.catch(err => res.status(400).json(err));
   },
 
   // delete user
@@ -82,7 +82,7 @@ const userController = {
     User.findOneAndUpdate(
       { _id: params.userId },
       { $push: { friends: body } },
-      { new: true }
+      { new: true, runValidators: true } // updated 8/9
     )
       .then(dbUserData => {
         if (!dbUserData) {

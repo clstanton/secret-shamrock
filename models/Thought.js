@@ -12,7 +12,8 @@ const ReactionSchema = new Schema(
     reactionBody: {
       type: String,
       maxlength: [280, 'Exceeds the maximum allowed length (280)!'],
-      required: true
+      required: true,
+      trim: true
     },
     username: {
       type: String,
@@ -31,32 +32,33 @@ const ReactionSchema = new Schema(
     }
 );
 
-const ThoughtSchema = new Schema({
-  thoughtText: {
-    type: String,
-    maxlength: [280, 'Exceeds the maximum allowed length (280)!'],
-    required: true
+const ThoughtSchema = new Schema(
+  {
+    thoughtText: {
+      type: String,
+      maxlength: [280, 'Exceeds the maximum allowed length (280)!'],
+      required: true
+    },
+    createdAt: {
+      type: Date,
+      default: Date.now,
+      get: (createdAtVal) => moment(createdAtVal).format('MMM DD, YYYY [at] hh:mm a')
+    },
+    // The user who created this thought
+    username: {
+      type: String,
+      required: true
+    },   
+    // like replies, array of nested documents created with the reactionSchema 
+    reactions: [ReactionSchema]
   },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-    get: (createdAtVal) => moment(createdAtVal).format('MMM DD, YYYY [at] hh:mm a')
-  },
-  // The user who created this thought
-  username: {
-    type: String,
-    required: true
-  },   
-  // like replies, array of nested documents created with the reactionSchema 
-  reactions: [ReactionSchema]
-},
-{
-  toJSON: {
-    virtuals: true,
-    getters: true
-  },
-  id: false
-}
+  {
+    toJSON: {
+      virtuals: true,
+      getters: true
+    },
+    id: false
+  }
 );
 
 // add a virtual to get the total reaction count, retrieves the length of the thought's reactions array field on query.
